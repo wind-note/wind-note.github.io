@@ -1,0 +1,641 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind-Note - 蓬莱二中学生乐队</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ff6b6b;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        /* Music Player */
+        .player {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .song-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .song-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Members Grid */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Events */
+        .event-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .event-date {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <span>Wind-Note</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="active">首页</a>
+                <a href="#about">关于</a>
+                <a href="#music">音乐</a>
+                <a href="#members">成员</a>
+                <a href="#events">演出</a>
+                <a href="#contact">联系</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Wind-Note</h1>
+            <p>蓬莱二中学生乐队 | 用音乐记录青春的美好时光</p>
+            <div>
+                <a href="#music" class="btn">听我们的音乐</a>
+                <a href="#about" class="btn btn-outline">了解我们</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">关于 Wind-Note</h2>
+            <div class="about-content">
+                <p>Wind-Note 是由蓬莱二中学生组成的校园乐队，成立于2023年。我们怀着对音乐的热爱聚集在一起，用青春的热情创作属于我们的音乐作品。</p>
+                <br>
+                <p>我们的音乐风格融合了流行、摇滚和民谣元素，旨在表达青春期的美好与困惑，传递积极向上的生活态度。每一首歌曲都承载着我们的青春记忆和对未来的憧憬。</p>
+                <br>
+                <p>作为校园乐队，我们积极参与学校各类文艺活动，希望通过音乐为同学们带来快乐，丰富校园文化生活，同时也为有音乐梦想的同学提供展示平台。</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>青春力量</h3>
+                    <p>来自蓬莱二中的年轻音乐人，用热情诠释音乐</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>原创音乐</h3>
+                    <p>用心创作每一首歌曲，记录青春的旋律</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>校园文化</h3>
+                    <p>丰富校园文化生活，传播音乐的美好</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Section -->
+    <section id="music">
+        <div class="container">
+            <h2 class="section-title">我们的音乐</h2>
+            <div class="player">
+                <div class="now-playing">
+                    <h3>正在播放</h3>
+                    <button class="btn" id="playBtn">
+                        <i class="fas fa-play"></i> 播放
+                    </button>
+                </div>
+                <div class="song-item" id="currentSong">
+                    <div>
+                        <h4>风之笔记</h4>
+                        <p>专辑: 初音 | 时长: 4:20</p>
+                    </div>
+                    <span class="song-duration">4:20</span>
+                </div>
+            </div>
+            
+            <div class="song-list">
+                <div class="song-item" onclick="playSong('风之笔记', '初音', '4:20')">
+                    <div>
+                        <h4>风之笔记</h4>
+                        <p>专辑: 初音</p>
+                    </div>
+                    <span class="song-duration">4:20</span>
+                </div>
+                <div class="song-item" onclick="playSong('海风轻语', '初音', '3:45')">
+                    <div>
+                        <h4>海风轻语</h4>
+                        <p>专辑: 初音</p>
+                    </div>
+                    <span class="song-duration">3:45</span>
+                </div>
+                <div class="song-item" onclick="playSong('夜色如歌', '初音', '5:12')">
+                    <div>
+                        <h4>夜色如歌</h4>
+                        <p>专辑: 初音</p>
+                    </div>
+                    <span class="song-duration">5:12</span>
+                </div>
+                <div class="song-item" onclick="playSong('晨曦序曲', '初音', '4:05')">
+                    <div>
+                        <h4>晨曦序曲</h4>
+                        <p>专辑: 初音</p>
+                    </div>
+                    <span class="song-duration">4:05</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Members Section -->
+    <section id="members">
+        <div class="container">
+            <h2 class="section-title">乐队成员</h2>
+            <div class="members-grid">
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/4f46e5/white?text=张" alt="张明轩" class="member-avatar">
+                    <h3>张明轩</h3>
+                    <p style="color: #ff6b6b;">主唱/吉他</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/ec4899/white?text=李" alt="李思雨" class="member-avatar">
+                    <h3>李思雨</h3>
+                    <p style="color: #ff6b6b;">键盘/和声</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/0ea5e9/white?text=王" alt="王浩然" class="member-avatar">
+                    <h3>王浩然</h3>
+                    <p style="color: #ff6b6b;">鼓手</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/10b981/white?text=陈" alt="陈雅婷" class="member-avatar">
+                    <h3>陈雅婷</h3>
+                    <p style="color: #ff6b6b;">贝斯</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://placehold.co/200x200/f59e0b/white?text=刘" alt="刘子涵" class="member-avatar">
+                    <h3>刘子涵</h3>
+                    <p style="color: #ff6b6b;">吉他</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <div class="container">
+            <h2 class="section-title">演出安排</h2>
+            <div class="event-item">
+                <div class="event-date">
+                    <div style="font-size: 1.2rem; font-weight: bold;">15</div>
+                    <div style="font-size: 0.8rem;">12月</div>
+                </div>
+                <div>
+                    <h3>校园音乐节演出</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 蓬莱二中大礼堂</p>
+                    <button class="btn" style="margin-top: 0.5rem;">预定座位</button>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-date">
+                    <div style="font-size: 1.2rem; font-weight: bold;">20</div>
+                    <div style="font-size: 0.8rem;">1月</div>
+                </div>
+                <div>
+                    <h3>新年音乐会</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 市文化中心</p>
+                    <button class="btn" style="margin-top: 0.5rem;">预定座位</button>
+                </div>
+            </div>
+            <div class="event-item">
+                <div class="event-date">
+                    <div style="font-size: 1.2rem; font-weight: bold;">10</div>
+                    <div style="font-size: 0.8rem;">2月</div>
+                </div>
+                <div>
+                    <h3>春季巡演</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 各区中学</p>
+                    <button class="btn" style="margin-top: 0.5rem;">预定座位</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">联系我们</h2>
+            <div style="text-align: center; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.2);">
+                <p style="margin-bottom: 1rem;"><i class="fas fa-envelope"></i> 邮箱: windnote@penglai2.edu.cn</p>
+                <p style="margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> 地址: 山东省蓬莱市蓬莱二中</p>
+                <p><i class="fas fa-school"></i> 学校: 蓬莱二中</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="logo" style="font-size: 1.5rem; margin-bottom: 1rem;">
+                        <i class="fas fa-music"></i>
+                        <span>Wind-Note</span>
+                    </div>
+                    <p>蓬莱二中学生乐队，用音乐记录青春的美好时光</p>
+                </div>
+                <div>
+                    <h4>快速链接</h4>
+                    <p><a href="#home" style="color: #ccc; text-decoration: none;">首页</a></p>
+                    <p><a href="#about" style="color: #ccc; text-decoration: none;">关于我们</a></p>
+                    <p><a href="#music" style="color: #ccc; text-decoration: none;">音乐作品</a></p>
+                    <p><a href="#events" style="color: #ccc; text-decoration: none;">演出安排</a></p>
+                </div>
+                <div>
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Wind-Note. All rights reserved. | 蓬莱二中学生乐队</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation active state
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Music player functionality
+        let isPlaying = false;
+        const playBtn = document.getElementById('playBtn');
+        const currentSong = document.getElementById('currentSong');
+        
+        playBtn.addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            const icon = playBtn.querySelector('i');
+            if (isPlaying) {
+                icon.className = 'fas fa-pause';
+                playBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            } else {
+                icon.className = 'fas fa-play';
+                playBtn.innerHTML = '<i class="fas fa-play"></i> 播放';
+            }
+        });
+
+        function playSong(title, album, duration) {
+            currentSong.innerHTML = `
+                <div>
+                    <h4>${title}</h4>
+                    <p>专辑: ${album} | 时长: ${duration}</p>
+                </div>
+                <span class="song-duration">${duration}</span>
+            `;
+            isPlaying = true;
+            const icon = playBtn.querySelector('i');
+            icon.className = 'fas fa-pause';
+            playBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.7)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.3)';
+            }
+        });
+    </script>
+</body>
+</html>
+```
